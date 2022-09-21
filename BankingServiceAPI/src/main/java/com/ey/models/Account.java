@@ -12,8 +12,8 @@ public class Account {
     @Column(name = "b_id")
     private int id;
 
-
-    private double amount;
+    @Column(columnDefinition = "NUMERIC(12,2)")
+    private int amount;
 
     @Column(nullable = false)
     private String name;
@@ -22,10 +22,11 @@ public class Account {
     private String acc_type;
     private int transaction_limit;
 
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user_id;
 
-    public Account(int id, double amount, String name, String acc_type, int transaction_limit, User user_id) {
+    public Account(int id, int amount, String name, String acc_type, int transaction_limit, User user_id) {
         this.id = id;
         this.amount = amount;
         this.name = name;
@@ -49,7 +50,7 @@ public class Account {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 

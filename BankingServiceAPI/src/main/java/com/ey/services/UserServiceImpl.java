@@ -3,10 +3,13 @@ package com.ey.services;
 import com.ey.models.User;
 import com.ey.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     UserRepo userRepo;
 

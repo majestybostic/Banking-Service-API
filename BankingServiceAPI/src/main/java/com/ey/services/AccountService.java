@@ -2,9 +2,11 @@ package com.ey.services;
 
 import com.ey.models.Account;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface AccountService {
 
     //Test Comment
