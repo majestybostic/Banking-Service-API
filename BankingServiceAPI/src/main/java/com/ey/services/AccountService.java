@@ -1,6 +1,7 @@
 package com.ey.services;
 
 import com.ey.models.Account;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.List;
 
@@ -13,4 +14,8 @@ public interface AccountService {
     public boolean deleteAccount(int id);
 
     public List<Account> getAccountById(int id);
+
+    List<Account> getAllAccounts();
+
+
 }
