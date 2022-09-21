@@ -46,7 +46,7 @@ public class Account {
         this.id = id;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 

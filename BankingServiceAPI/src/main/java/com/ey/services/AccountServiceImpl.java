@@ -30,6 +30,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account depositById(int id) {
+        //Get the account
+        Account ba =  ar.findById(id).get();
+        ar.save(ba);
+        return ba;
+    }
+
+
+    @Override
+    public Account withdrawalById(int id) {
+        //Get the account
+        Account ba =  ar.findById(id).get();
+        ar.save(ba);
+        return ba;
+    }
+
+    @Override
     public Account updateAccount(Account change) {
         return ar.save(change);
 
@@ -45,11 +62,6 @@ public class AccountServiceImpl implements AccountService {
             return false;
         }
 
-    }
-
-    @Override
-    public List<Account> getAccountById(int id) {
-        return null;
     }
 
 

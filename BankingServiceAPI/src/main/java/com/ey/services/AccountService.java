@@ -15,9 +15,10 @@ public interface AccountService {
     public Account updateAccount(Account change);
     public boolean deleteAccount(int id);
 
-    public List<Account> getAccountById(int id);
-
     List<Account> getAllAccounts();
+
+    Account depositById(int id);
+    Account withdrawalById(int id);
 
 
 }
