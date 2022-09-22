@@ -1,6 +1,7 @@
 package com.ey.services;
 
 import com.ey.models.Account;
+import com.ey.models.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public interface AccountService {
     Account withdrawalById(int id);
 
    List<Account> transfer(int fromThisBank, int toThisBank);
+
+   User getUserByBankId(int id);
 
 
 }

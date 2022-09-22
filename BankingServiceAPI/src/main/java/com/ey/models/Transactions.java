@@ -32,15 +32,11 @@ public class Transactions {
     @Column(name = "completiondate")
     private String completionDate;
 
-
-
     public void Transaction() {
 
     }
 
-
-
-    public long getId() {
+    public int getId() {
         return id;
     }
     public void setId(int id) {
@@ -59,14 +55,14 @@ public class Transactions {
         this.targetAccountId = targetAccountId;
     }
 
-
     public double getAmount() {
         return amount;
     }
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    public String startDate() {
+
+    public String getStartDate() {
         return startDate;
     }
     public void setStartDate(String startDate) {
