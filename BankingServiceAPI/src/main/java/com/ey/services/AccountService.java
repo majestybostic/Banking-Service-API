@@ -20,5 +20,7 @@ public interface AccountService {
     Account depositById(int id);
     Account withdrawalById(int id);
 
+   List<Account> transfer(int fromThisBank, int toThisBank);
+
 
 }

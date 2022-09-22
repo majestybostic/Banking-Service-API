@@ -3,6 +3,7 @@ package com.ey.controllers;
 import com.ey.models.User;
 import com.ey.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,17 @@ public class UserController {
         newUser.setUser_password(password);
         return ResponseEntity.ok(us.createUser(newUser));
 
+    }
+
+    @GetMapping("login")
+    public ResponseEntity<User> login(@RequestParam String username,
+                                      @RequestParam String password) {
+
+        User user_found = us.findUser(username, password);
+        if (user_found.getUsername().equals(username) && user_found.getUser_password().equals(password)) {
+            return ResponseEntity.ok(us.login(user_found));
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

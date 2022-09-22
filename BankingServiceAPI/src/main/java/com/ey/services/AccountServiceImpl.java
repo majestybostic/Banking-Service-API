@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,6 +45,22 @@ public class AccountServiceImpl implements AccountService {
         Account ba =  ar.findById(id).get();
         ar.save(ba);
         return ba;
+    }
+
+    @Override
+    public List<Account> transfer(int fromThisBank, int toThisBank) {
+        Account fromBank = ar.findById(fromThisBank).get();
+        Account toBank = ar.findById(toThisBank).get();
+
+        List<Account> accs = new ArrayList<>();
+        accs.add(fromBank);
+        accs.add(toBank);
+
+        ar.save(fromBank);
+        ar.save(toBank);
+
+        return accs;
+
     }
 
     @Override
