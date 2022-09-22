@@ -4,6 +4,7 @@ import com.ey.models.Account;
 import com.ey.models.Transactions;
 import com.ey.services.AccountService;
 import com.ey.services.TransactionsService;
+import com.ey.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class AccountController {
 
     @Autowired
     TransactionsService ts;
+
+    @Autowired
+    UserService us;
 
     @GetMapping
     public ResponseEntity<List<Account>> getAccounts() {
@@ -57,8 +61,6 @@ public class AccountController {
             return null;
         }
     }
-
-
 
     @PutMapping("/{id}/withdrawal")
     public ResponseEntity<Account> withdrawalById(@PathVariable int id,
@@ -125,7 +127,21 @@ public class AccountController {
 
     }
 
+    @PostMapping("/{id}/newAccount")
+    public ResponseEntity<Account> addAccount(@PathVariable int id,
+                              @RequestParam int amount,
+                              @RequestParam String type,
+                              @RequestParam String name,
+                              @RequestParam int transactionLimit) {
+        Account newAccount = new Account();
+        newAccount.setUser_id(us.getUserById(id));
+        newAccount.setAmount(amount);
+        newAccount.setAcc_type(type);
+        newAccount.setName(name);
+        newAccount.setTransaction_limit(transactionLimit);
 
+        return ResponseEntity.ok(as.addAccount(newAccount));
+    }
 
     private void createAndSaveTransaction(int id, int amount) {
         //Create Transaction

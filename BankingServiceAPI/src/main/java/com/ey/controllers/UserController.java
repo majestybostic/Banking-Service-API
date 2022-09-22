@@ -1,6 +1,8 @@
 package com.ey.controllers;
 
+import com.ey.models.Account;
 import com.ey.models.User;
+import com.ey.services.AccountService;
 import com.ey.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ public class UserController {
 
     @Autowired
     UserService us;
+
+    @Autowired
+    AccountService as;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
@@ -35,6 +40,8 @@ public class UserController {
         newUser.setName(name);
         newUser.setUsername(username);
         newUser.setUser_password(password);
+
+
         return ResponseEntity.ok(us.createUser(newUser));
 
     }
