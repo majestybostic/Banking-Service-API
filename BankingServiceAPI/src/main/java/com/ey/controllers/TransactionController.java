@@ -13,37 +13,34 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RestController
+@RequestMapping("transactions")
 public class TransactionController {
 
     @Autowired
-    TransactionsService as;
-
-    @GetMapping
-    public ResponseEntity<List<Transactions>> getTransactions() {
-        return ResponseEntity.ok(as.getAllTransactions());
-    }
+    TransactionsService ts;
 
     @GetMapping("/{id}")
     public ResponseEntity<Transactions> getTransactionsById(@PathVariable int id) {
-        return ResponseEntity.ok(as.getTransactions(id));
+        return ResponseEntity.ok(ts.getTransactions(id));
     }
-
-    @Autowired
-    TransactionsService us;
 
     @GetMapping
     public ResponseEntity<List<Transactions>> getAllTransactions(){
-        return ResponseEntity.ok(us.getAllTransactions());
+        return ResponseEntity.ok(ts.getAllTransactions());
     }
 
+/////Automatically adds transactions as they are done so we do not need to manually add them
+//    @PostMapping
+//    public ResponseEntity<Transactions> addTransactions(Transactions t) {
+//        Transactions newTransactions = new Transactions();
+//
+//        return ResponseEntity.ok(ts.addTransactions(newTransactions));
+//    }
 
-    @PostMapping
-    public ResponseEntity<Transactions> addTransactions(Transactions t) {
-
-        Transactions newTransactions = new Transactions();
- //       newTransactions.setStartDate(System.currentTimeMillis().toString());
- //       newTransactions.setCompletionDate(System.currentTimeMillis());
-        return ResponseEntity.ok(us.addTransactions(newTransactions));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Transactions> deleteTransactions(@PathVariable int id){
+        return ResponseEntity.ok(ts.deleteTransactions(id));
     }
 
     }

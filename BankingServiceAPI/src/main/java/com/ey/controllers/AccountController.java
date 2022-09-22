@@ -1,12 +1,15 @@
 package com.ey.controllers;
 
 import com.ey.models.Account;
+import com.ey.models.Transactions;
 import com.ey.services.AccountService;
+import com.ey.services.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,9 @@ public class AccountController {
 
     @Autowired
     AccountService as;
+
+    @Autowired
+    TransactionsService ts;
 
     @GetMapping
     public ResponseEntity<List<Account>> getAccounts() {
@@ -38,6 +44,10 @@ public class AccountController {
             //Set the amount and incorporate the difference
             if ( amount <= account.getTransaction_limit()) {
                 account.setAmount(curr_amount + amount);
+
+                createAndSaveTransaction(id, amount);
+
+
                 return ResponseEntity.ok(as.depositById(account.getId()));
             }
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
@@ -47,6 +57,8 @@ public class AccountController {
             return null;
         }
     }
+
+
 
     @PutMapping("/{id}/withdrawal")
     public ResponseEntity<Account> withdrawalById(@PathVariable int id,
@@ -62,6 +74,7 @@ public class AccountController {
             if ( amount <= account.getTransaction_limit()) {
                 //Set the amount and incorporate the difference
                 account.setAmount(curr_amount - amount);
+                createAndSaveTransaction(id, amount);
                 return ResponseEntity.ok(as.withdrawalById(account.getId()));
             }
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
@@ -98,6 +111,9 @@ public class AccountController {
 
                 //Add and set the amount
                 toBank.setAmount(curr_amount2 + amount);
+
+                createTransferTransaction(from, to, amount);
+
                 return ResponseEntity.ok(as.transfer(from, to));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
@@ -107,6 +123,53 @@ public class AccountController {
             return ResponseEntity.badRequest().build();
         }
 
+    }
+
+
+
+    private void createAndSaveTransaction(int id, int amount) {
+        //Create Transaction
+        Transactions newTransaction = new Transactions();
+
+        //Get current time in millis
+        long millis = System.currentTimeMillis();
+
+        //Create and set start date
+        Date newDate = new Date(millis);
+        newTransaction.setStartDate(newDate.toString());
+
+        //Set transaction properties
+        newTransaction.setAmount(amount);
+        newTransaction.setTargetAccountId(as.getUserByBankId(id));
+
+        //Create and set completion date
+        long milliFinish = System.currentTimeMillis();
+        Date finishDate = new Date(milliFinish);
+        newTransaction.setCompletionDate(finishDate.toString());
+        ts.addTransactions(newTransaction);
+    }
+
+    private void createTransferTransaction(int from, int to, int amount) {
+        //Create Transaction
+        Transactions newTransaction = new Transactions();
+
+        //Get current time in millis
+        long millis = System.currentTimeMillis();
+
+        //Create and set start date
+        Date newDate = new Date(millis);
+        newTransaction.setStartDate(newDate.toString());
+
+        //Set transaction properties
+        newTransaction.setAmount(amount);
+        newTransaction.setUserAccountId(as.getUserByBankId(to));
+        newTransaction.setTargetAccountId(as.getUserByBankId(from));
+
+        //Create and set completion date
+        long milliFinish = System.currentTimeMillis();
+        Date finishDate = new Date(milliFinish);
+        newTransaction.setCompletionDate(finishDate.toString());
+        ts.addTransactions(newTransaction);
     }
 
 

@@ -16,10 +16,7 @@ public interface TransactionsService {
 
     public Transactions updateTransactions(Transactions change);
 
-    public boolean deleteTransactions(int id);
-
-    Transactions getTransactionsById(int id);
-
+    public Transactions deleteTransactions(int id);
 
     List<Transactions> getAllTransactions();
 }

@@ -22,31 +22,29 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     @Override
     public Transactions addTransactions(Transactions t) {
-        Date currentDate = new Date(t.getCompletionDate());
         return transactionsRepo.save(t);
-
-
     }
 
     @Override
     public Transactions getTransactions(int id) {
-        return null;
+        return transactionsRepo.findById(id).get();
     }
-
-    @Override
-    public Transactions getTransactionsById(int id) {
-        return null;
-    }
-
 
     @Override
     public Transactions updateTransactions(Transactions change) {
-        return null;
+        return transactionsRepo.save(change);
     }
 
     @Override
-    public boolean deleteTransactions(int id) {
-        return false;
+    public Transactions deleteTransactions(int id) {
+        try{
+            Transactions deletedTransaction = getTransactions(id);
+            transactionsRepo.deleteById(id);
+            return deletedTransaction;
+        } catch (Error e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package com.ey.services;
 
 import com.ey.models.Account;
+import com.ey.models.User;
 import com.ey.repositories.AccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -61,6 +62,13 @@ public class AccountServiceImpl implements AccountService {
 
         return accs;
 
+    }
+
+    @Override
+    public User getUserByBankId(int id) {
+        Account account = ar.findById(id).get();
+        User user = account.getUser_id();
+        return user;
     }
 
     @Override
