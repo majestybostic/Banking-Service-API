@@ -27,4 +27,20 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         return userRepo.save(user);
     }
+
+    public User findUser(String username, String password) {
+        List<User> users = (List<User>) userRepo.findAll();
+
+        for (int i = 0; i < users.size(); i++) {
+            if (username.equals(users.get(i).getUsername()) && password.equals(users.get(i).getUser_password())) {
+                return users.get(i);
+            }
+        }
+        return new User();
+    }
+
+    @Override
+    public User login(User user) {
+        return user;
+    }
 }
