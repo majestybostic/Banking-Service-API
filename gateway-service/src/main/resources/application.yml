@@ -1,0 +1,27 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      default-filters:
+        - PrefixPath=/
+      routes:
+        # =================
+        - id: User
+          uri: lb://user
+          predicates:
+            - Path=/users/**
+          filters:
+            - StripPrefix=1
+        # =================
+        - id: Account
+          uri: lb://account
+          predicates:
+            - Path=/accounts/**
+          filters:
+            - StripPrefix=1
+
+
+
