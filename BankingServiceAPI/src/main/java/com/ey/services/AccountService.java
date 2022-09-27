@@ -23,7 +23,7 @@ public interface AccountService {
 
    List<Account> transfer(int fromThisBank, int toThisBank);
 
-   User getUserByBankId(int id);
+    public User getUserByBankId(int id);
 
 
 }

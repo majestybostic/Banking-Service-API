@@ -43,4 +43,14 @@ public class UserServiceImpl implements UserService {
     public User login(User user) {
         return user;
     }
+
+    @Override
+    public boolean deleteUser(int id) {
+        try {
+            userRepo.deleteById(id);
+            return true;
+        } catch (Error e) {
+            return false;
+        }
+    }
 }

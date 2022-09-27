@@ -2,6 +2,7 @@ package com.ey.controllers;
 
 import com.ey.models.Account;
 import com.ey.models.Transactions;
+import com.ey.models.User;
 import com.ey.services.AccountService;
 import com.ey.services.TransactionsService;
 import com.ey.services.UserService;
@@ -49,7 +50,7 @@ public class AccountController {
             if ( amount <= account.getTransaction_limit()) {
                 account.setAmount(curr_amount + amount);
 
-                createAndSaveTransaction(id, amount);
+//                createAndSaveTransaction(id, amount);
 
 
                 return ResponseEntity.ok(as.depositById(account.getId()));
@@ -114,7 +115,7 @@ public class AccountController {
                 //Add and set the amount
                 toBank.setAmount(curr_amount2 + amount);
 
-                createTransferTransaction(from, to, amount);
+//                createTransferTransaction(from, to, amount);
 
                 return ResponseEntity.ok(as.transfer(from, to));
             } else {
@@ -142,6 +143,17 @@ public class AccountController {
 
         return ResponseEntity.ok(as.addAccount(newAccount));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteAccount(@PathVariable int id) {
+        try {
+            as.deleteAccount(id);
+            return ResponseEntity.ok(true);
+        } catch (Error e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     private void createAndSaveTransaction(int id, int amount) {
         //Create Transaction

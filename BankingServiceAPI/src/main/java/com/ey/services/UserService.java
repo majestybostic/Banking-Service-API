@@ -15,6 +15,8 @@ public interface UserService {
     User findUser(String username, String password);
     User login(User user);
 
+    boolean deleteUser(int id);
+
 
 
 

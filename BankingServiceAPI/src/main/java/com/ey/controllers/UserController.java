@@ -18,9 +18,6 @@ public class UserController {
     @Autowired
     UserService us;
 
-    @Autowired
-    AccountService as;
-
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
         return ResponseEntity.ok(us.getAllUsers());
@@ -55,6 +52,16 @@ public class UserController {
             return ResponseEntity.ok(us.login(user_found));
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteUser(@PathVariable int id) {
+        try {
+            us.deleteUser(id);
+            return ResponseEntity.ok(true);
+        } catch (Error e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
